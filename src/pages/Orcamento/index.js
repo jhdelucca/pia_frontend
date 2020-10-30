@@ -79,6 +79,7 @@ export default function Orcamento() {
 
                         <li className="nav-item">
                             <button class="btn btn-outline-light ml-3 my-2 my-sm-0" type="button" 
+                            onClick={() => handleLogout()}
                            >Sair</button>
                         </li>
                     </ul>

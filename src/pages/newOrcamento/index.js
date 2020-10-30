@@ -48,6 +48,12 @@ export default function NewOrcamento() {
         }
     }
 
+    async function handleLogout() {
+        localStorage.clear();
+        history.push('/')
+
+    }
+
     return (
         <>
             <Header>
@@ -67,6 +73,7 @@ export default function NewOrcamento() {
 
                         <li className="nav-item">
                             <button class="btn btn-outline-light ml-3 my-2 my-sm-0" type="button"
+                                onClick={() => handleLogout()}
                             >Sair</button>
                         </li>
                     </ul>
