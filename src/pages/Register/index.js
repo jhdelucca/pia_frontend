@@ -23,7 +23,7 @@ export default function Register() {
             email
         }
 
-        if (repeatSenha != senha) {
+        if (repeatSenha !== senha) {
             alert("Senhas Incompativeis !");
         }
 
