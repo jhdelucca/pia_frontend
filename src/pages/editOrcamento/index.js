@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useHistory, Link } from 'react-router-dom';
 import api from '../../services/api';
@@ -6,44 +6,57 @@ import Header from '../../components/header/header';
 
 import './styles.css';
 
-export default function NewCentroCusto() {
+export default function EditOrcamento(props) {
 
     const [nome, setNome] = useState('');
-    const [tipo, setTipo] = useState('');
-    const [valorCusto, setValorCusto] = useState();
-    const [limite, setLimite] = useState()
+    const [valorMensal, setValorMensal] = useState();
+    const [valorGasto, setValorGasto] = useState()
+    const [orcamento, setOrcamento] = useState({});
+
+    const id = props.match.params.id
 
     const usr_id = localStorage.getItem('usrId');
 
     const history = useHistory();
+
+    useEffect(() => {
+        api.get(`gastos/${id}`, {
+            headers: {
+                Authorization: usr_id
+            }
+        }).then(response => {
+            setOrcamento(response.data);
+        })
+        console.log(id);
+    }, [])
 
     async function handleRegister(e) {
         e.preventDefault();
 
         const data = {
             nome,
-            tipo,
-            valorCusto,
-            limite
+            valorMensal,
+            valorGasto
         }
 
         try {
-            await api.post('centrocusto', data, {
-                headers: {
-                    Authorization: usr_id,
-                }
-            })
+        
+        await api.put(`gastos/${id}`, data , {
+            headers: {
+                Authorization: usr_id,
+            }
+        });
 
-            alert(`Centro custo adicionado com sucesso !`)
+        alert("Editado com sucesso");    
 
-            history.push('/centrocusto')
+        history.push('/orcamento')
 
         } catch (err) {
             console.log(err);
-            alert('Erro no cadastro. Tente Novamente')
+            alert('Erro na edição. Tente Novamente')
             document.getElementById("nome").value = "";
-            document.getElementById("valorCusto").value = "";
-            document.getElementById("limite").value = "";
+            document.getElementById("valorMensal").value = "";
+            document.getElementById("valoGasto").value = "";
         }
     }
 
@@ -78,49 +91,41 @@ export default function NewCentroCusto() {
                     </ul>
                 </div>
             </Header>
-            <div className="new-container">
+            <div className="edit-container">
                 <div className="content">
                     <section>
-                        <h1>Centro de custo</h1>
-                        <p>Adicione seu centro de custo ! </p>
+                        <h1>Orcamento</h1>
+                        <p>Edite seu orcamento ! </p>
                     </section>
 
                     <form onSubmit={handleRegister} >
                         <input
                             id="nome"
                             className="form-control"
-                            placeholder="Nome"
+                            placeholder={orcamento.nome}
                             value={nome}
                             onChange={e => setNome(e.target.value)} />
 
-                        <select className="form-control" value={tipo} onChange={e => setTipo(e.target.value)}>
-                            <option>Selecione Tipo (C - Credito / CC - Conta Corrente)</option>
-                            <option>C</option>
-                            <option>CC</option>
-                        </select>
+                        <input
+                            id="valorMensal"
+                            className="form-control"
+                            placeholder={orcamento.valorMensal}
+                            value={valorMensal}
+                            onChange={e => setValorMensal(e.target.value)} />
 
                         <input
-                            id="valorCusto"
+                            id="valorGasto"
                             className="form-control"
-                            placeholder="Valor do custo"
-                            value={valorCusto}
-                            type="number"
-                            onChange={e => setValorCusto(e.target.value)} />
+                            placeholder={orcamento.valorGasto}
+                            value={valorGasto}
+                            onChange={e => setValorGasto(e.target.value)} />
 
-                        <input
-                            id="limite"
-                            className="form-control"
-                            placeholder="limite (se CC coloque 0)"
-                            value={limite}
-                            type="number"
-                            onChange={e => setLimite(e.target.value)} />
-
-                        <button className="btn-danger form-control" type="submit">Adicionar</button>
+                        <button className="btn-danger form-control" type="submit">Editar</button>
                     </form>
 
-                    <Link className="back-link" to="/centrocusto">
+                    <Link className="back-link" to="/orcamento">
                         <FiArrowLeft size={16} color="#E02041" />
-                            Voltar para centro custo
+                            Voltar para orcamento
                     </Link>
                 </div>
             </div>

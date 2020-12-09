@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useHistory, Link } from 'react-router-dom';
 import api from '../../services/api';
@@ -6,16 +6,30 @@ import Header from '../../components/header/header';
 
 import './styles.css';
 
-export default function NewCentroCusto() {
+export default function EditCentroCusto(props) {
 
     const [nome, setNome] = useState('');
     const [tipo, setTipo] = useState('');
     const [valorCusto, setValorCusto] = useState();
     const [limite, setLimite] = useState()
+    const [centroCusto, setcentroCusto] = useState({});
+
+    const id = props.match.params.id
 
     const usr_id = localStorage.getItem('usrId');
 
     const history = useHistory();
+
+    useEffect(() => {
+        api.get(`centrocusto/${id}`, {
+            headers: {
+                Authorization: usr_id
+            }
+        }).then(response => {
+            setcentroCusto(response.data);
+        })
+        console.log(id);
+    }, [])
 
     async function handleRegister(e) {
         e.preventDefault();
@@ -28,19 +42,20 @@ export default function NewCentroCusto() {
         }
 
         try {
-            await api.post('centrocusto', data, {
-                headers: {
-                    Authorization: usr_id,
-                }
-            })
+        
+        const response =  await api.put(`centrocusto/${id}`, data , {
+            headers: {
+                Authorization: usr_id,
+            }
+        });
 
-            alert(`Centro custo adicionado com sucesso !`)
+        alert("Editado com sucesso");    
 
-            history.push('/centrocusto')
+        history.push('/centrocusto')
 
         } catch (err) {
             console.log(err);
-            alert('Erro no cadastro. Tente Novamente')
+            alert('Erro na edição. Tente Novamente')
             document.getElementById("nome").value = "";
             document.getElementById("valorCusto").value = "";
             document.getElementById("limite").value = "";
@@ -78,18 +93,18 @@ export default function NewCentroCusto() {
                     </ul>
                 </div>
             </Header>
-            <div className="new-container">
+            <div className="edit-container">
                 <div className="content">
                     <section>
                         <h1>Centro de custo</h1>
-                        <p>Adicione seu centro de custo ! </p>
+                        <p>Edite seu centro de custo ! </p>
                     </section>
 
                     <form onSubmit={handleRegister} >
                         <input
                             id="nome"
                             className="form-control"
-                            placeholder="Nome"
+                            placeholder={centroCusto.nome}
                             value={nome}
                             onChange={e => setNome(e.target.value)} />
 
@@ -102,7 +117,7 @@ export default function NewCentroCusto() {
                         <input
                             id="valorCusto"
                             className="form-control"
-                            placeholder="Valor do custo"
+                            placeholder={centroCusto.valorCusto}
                             value={valorCusto}
                             type="number"
                             onChange={e => setValorCusto(e.target.value)} />
@@ -110,12 +125,12 @@ export default function NewCentroCusto() {
                         <input
                             id="limite"
                             className="form-control"
-                            placeholder="limite (se CC coloque 0)"
+                            placeholder={centroCusto.limite}
                             value={limite}
                             type="number"
                             onChange={e => setLimite(e.target.value)} />
 
-                        <button className="btn-danger form-control" type="submit">Adicionar</button>
+                        <button className="btn-danger form-control" type="submit">Editar</button>
                     </form>
 
                     <Link className="back-link" to="/centrocusto">

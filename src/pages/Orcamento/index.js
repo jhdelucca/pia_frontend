@@ -119,12 +119,12 @@ export default function Orcamento() {
                             <strong>VALOR JÁ GASTO:</strong>
                             <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(gasto.valorGasto)}</p>
 
-                            <Link to={`orcamento/${gasto.id}`} className="link" alt="gastos detalhados" >
+                            <Link to={`gasto/${gasto.id}`} className="link" alt="gastos detalhados" >
                                 <FiFastForward size={20} color="#007bff" />
                             </Link>
 
                             <div className="warnings">
-                                <Link to={`editUser/${gasto.id}`}>
+                                <Link to={`editOrcamento/${gasto.id}`}>
                                     <FiEdit size={20} color="#007bff" />
                                 </Link>
 

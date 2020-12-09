@@ -1,4 +1,4 @@
-.new-container {
+.edit-container {
     width: 100%;
     max-width: 1120px;
     height: 80vh;
@@ -9,7 +9,7 @@
     margin-top: 10px;
 }
 
-.new-container .content {
+.edit-container .content {
     width: 100%;
     padding: 96px;
     background: #f0f0f5;
@@ -19,24 +19,24 @@
     justify-content: center;
 }
 
-.new-container .content section {
+.edit-container .content section {
     width: 100%;
     margin-top: 72px;
     text-align: center;
 }
 
-.new-container .content section h1 {
+.edit-container .content section h1 {
     margin: 16px 0 8px;
     font-size: 32px;
 }
 
-.new-container .content section p {
+.edit-container .content section p {
     font-size: 18px;
     color: #737380;
     line-height: 32px;
 }
 
-.new-container .content form {
+.edit-container .content form {
     width: 100%;
     max-width: 400px;
 }

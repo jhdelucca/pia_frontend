@@ -85,7 +85,7 @@ export default function CentroCusto() {
                 <ul>
                     {centroCustos.map(custo => (
                         <li key={custo.id}>
-                            <strong>{custo.nome}</strong>
+                            <strong>ID: {custo.id} --- {custo.nome}</strong>
 
                             <strong>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(custo.valorCusto)}</strong>
                                 

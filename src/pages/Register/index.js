@@ -35,7 +35,7 @@ export default function Register() {
                 }
             })
 
-            alert(`Usuario ${response.data.nome} cadastrado com sucesso !`)
+            alert(`Usuario cadastrado com sucesso !`)
 
             history.push('/')
 
